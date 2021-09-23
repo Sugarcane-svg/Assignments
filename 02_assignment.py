@@ -1,11 +1,11 @@
 '''
 Assignment #2
 1. Add / modify code ONLY between the marked areas (i.e. "Place code below")
-2. Run the associated test harness for a basic check on completeness. A successful run of the test cases does not 
+2. Run the associated test harness for a basic check on completeness. A successful run of the test cases does not
     guarantee accuracy or fulfillment of the requirements. Please do not submit your work if test cases fail.
 3. To run unit tests simply use the below command after filling in all of the code:
     python 07_assignment.py
-  
+
 4. Unless explicitly stated, please do not import any additional libraries but feel free to use built-in Python packages
 5. Submissions must be a Python file and not a notebook file (i.e *.ipynb)
 6. Do not use global variables unless stated to do so
@@ -18,12 +18,13 @@ import unittest
 import numpy as np
 import requests as r
 
+
 def exercise01():
     # Create a list called animals containing the following animals: cat, dog, crouching tiger, hidden dragon, manta ray
 
     # ------ Place code below here \/ \/ \/ ------
 
-
+    animals = ['cat', 'dog', 'crouching tiger', 'hidden dragon', 'manta ray']
     # ------ Place code above here /\ /\ /\ ------
 
     return animals
@@ -33,7 +34,11 @@ def exercise02():
     # Repeat exercise 1 and loop through and print each item in the animal list by iterating through an index number and using range(). Set the variable len_animals to the length of the animal list.
 
     # ------ Place code below here \/ \/ \/ ------
+    animals = ['cat', 'dog', 'crouching tiger', 'hidden dragon', 'manta ray']
+    len_animals = len(animals)
 
+    for i in range(len_animals):
+        print(i)
 
     # ------ Place code above here /\ /\ /\ ------
 
@@ -44,12 +49,14 @@ def exercise03():
     # Programmatically reorganize the countdown list below in descending order and return the value of the 5th element in the sorted countdown list.
     # The 5th element will be stored in the variable the_fifth_element, which currently below has a dummy value of -999.
     # Remember, the index number of the 5th element is not 5
-    
+
     countdown = [9, 8, 7, 5, 4, 2, 1, 6, 10, 3, 0, -5]
     the_fifth_element = -999
 
     # ------ Place code below here \/ \/ \/ ------
+    countdown.sort(reverse=True)
 
+    the_fifth_element = countdown[4]
 
     # ------ Place code above here /\ /\ /\ ------
 
@@ -72,8 +79,30 @@ def exercise04(more_temperatures, iot_sensor_points, a, b, c, d, e):
     copy_of_samples = []
 
     # ------ Place code below here \/ \/ \/ ------
+    temperatures = np.append(temperatures, more_temperatures)  # 1
+
+    for i in iot_sensor_points.values():  # 2
+        temperatures = np.append(temperatures, i)
+
+    temperatures = np.append(temperatures, a)  # 3
+    temperatures = np.append(temperatures, b)  # 3
+    temperatures = np.append(temperatures, c)  # 3
+    temperatures = np.append(temperatures, d)  # 3
+    temperatures = np.append(temperatures, e)  # 3
 
 
+
+    temperatures = np.sort(temperatures)[::-1]  # 4
+
+    # 5
+    index = 4
+    while (index < len(temperatures)):
+        samples.append(temperatures[index])
+        index = index + 5
+
+    copy_of_samples = list(samples)  # 6
+
+    samples.sort()  # 7
 
     # ------ Place code above here /\ /\ /\ ------
 
@@ -85,16 +114,21 @@ def exercise05(n):
 
     # ------ Place code below here \/ \/ \/ ------
 
-    pass # Remove this line
+    if n == 1 or n == 0:
+        return 1
+    else:
+        return n * exercise05(n - 1)
 
     # ------ Place code above here /\ /\ /\ ------
 
 
 def exercise06(n):
-     # This function will receive an arbitrary list of numbers of arbitrary size and find the average of those numbers. The size of the list may vary. Find the method that requires the  least amount of code. Return back the length, sum of list and average of list
+    # This function will receive an arbitrary list of numbers of arbitrary size and find the average of those numbers. The size of the list may vary. Find the method that requires the  least amount of code. Return back the length, sum of list and average of list
 
     # ------ Place code below here \/ \/ \/ ------
-
+    length_n = len(n)
+    sum_n = np.sum(np.array(n))
+    average_n = sum_n / length_n
 
     # ------ Place code above here /\ /\ /\ ------
     return length_n, sum_n, average_n
@@ -104,17 +138,24 @@ def exercise07(n):
     # This function looks for duplicates in list n. If there is a duplicate True is returned. If there are no duplicates False is returned.
 
     # ------ Place code below here \/ \/ \/ ------
+    for i in range(len(n)):
+        if n.count(i)>1:
+            return True
 
+    return False
 
     # ------ Place code above here /\ /\ /\ ------
 
 
-# ------ Place code below here \/ \/ \/ ------
-
 def exercise08(s):
     # This function receives a string. The string should be casted to an int and then a float and returns each separately
 
+    # ------ Place code below here \/ \/ \/ ------
+    int_s = int(s)
+    float_s = float(s)
+
     return int_s, float_s
+
 
 # ------ Place code above here /\ /\ /\ ------
 
@@ -125,27 +166,35 @@ def exercise09():
     url = 'https://random.dog/woof.json'
     dog_media = r.get(url=url)
     print(str(dog_media.content))
-    
-    # ------ Place code below here \/ \/ \/ ------
-    
 
+    # ------ Place code below here \/ \/ \/ ------
+    for i in range(11):
+        string_index = str(dog_media.content).find('https')
+        dogs.append(str(dog_media.content)[string_index: -3])
+        dog_media = r.get(url)
 
     # ------ Place code above here /\ /\ /\ ------
 
     return dogs
 
-def exercise10(sentence):
 
+def exercise10(sentence):
     # Exercise10 receives an arbitrary string. Return the sentence backwards with the cases inverted and spaces an underscore _, i.e. HelLo returns OlLEh
     reversed = ''
 
     # ------ Place code below here \/ \/ \/ ------
-    
+    for i in sentence[::-1]:
+        if i.isalpha():
 
+            if i.isupper():
+                reversed = reversed + i.lower()
+            else:
+                reversed = reversed + i.upper()
+        else:
+            reversed = reversed + "_"
 
     # ------ Place code above here /\ /\ /\ ------
     return reversed
-
 
 
 class TestAssignment2(unittest.TestCase):
@@ -156,7 +205,7 @@ class TestAssignment2(unittest.TestCase):
         self.assertTrue('cat' in a)
         self.assertTrue('dog' in a)
         self.assertTrue('manta ray' in a)
-    
+
     def test_exercise02(self):
         print('Testing exercise 2')
         a, l = exercise02()
@@ -179,8 +228,9 @@ class TestAssignment2(unittest.TestCase):
         more_temperatures = np.random.randint(300, 400, size=25)
         iot_sensor_points = {1: 801, 2: 644, 3: 991, 4: 721,
                              5: 752, 6: 871, 7: 991, 8: 1023, 9: 804, 10: 882}
-        samples, temperatures, more_temperatures, iot_sensor_points, a, b, c, d, e, copy_of_samples = exercise04(more_temperatures, iot_sensor_points,
-                                                                                                                 8000, 8500, 9000, 9500, 9999)
+        samples, temperatures, more_temperatures, iot_sensor_points, a, b, c, d, e, copy_of_samples = exercise04(
+            more_temperatures, iot_sensor_points,
+            8000, 8500, 9000, 9500, 9999)
 
         self.assertEqual(len(temperatures), 50)
         self.assertEqual(len(samples), 10)
@@ -214,21 +264,18 @@ class TestAssignment2(unittest.TestCase):
         self.assertTrue(exercise07([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == False)
         self.assertTrue(exercise07([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10]) == True)
         self.assertTrue(exercise07([1, 2.00002, 2.00001, 4, 5, 6, 7, 8, 9, 10]) == False)
-    
+
     def test_exercise09(self):
         print('Testing exercise 9')
         dogs = exercise09()
         for d in dogs:
             print(d)
         self.assertTrue('https://random.dog/' in d)
-            
 
     def test_exercise10(self):
         print('Testing exercise 10')
-        self.assertEqual(exercise10('HellO'),'oLLEh')
-        self.assertEqual(exercise10('ThIs Is MaD'),'dAm_Si_SiHt')
-
-
+        self.assertEqual(exercise10('HellO'), 'oLLEh')
+        self.assertEqual(exercise10('ThIs Is MaD'), 'dAm_Si_SiHt')
 
 
 if __name__ == '__main__':
